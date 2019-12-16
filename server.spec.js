@@ -2,6 +2,16 @@ const request = require("supertest"); // calling it "request" is a common practi
 
 const server = require("./api/server"); // this is our first red, file doesn't exist yet
 
+const userModel = require("./database/models/users");
+
+// our connection to the database
+const db = require("./database/dbConfig");
+
+// HOME ENDPOINTS //
+beforeEach(async () => {
+  // this function executes and clears out the table before each test
+});
+
 describe("server.js", () => {
   // http calls made with supertest return promises, we can use async/await if desired
   describe("index route", () => {
@@ -34,6 +44,27 @@ describe("server.js", () => {
       const response = await request(server).get("/");
 
       expect(response.type).toEqual("application/json");
+    });
+  });
+  describe("auth route", () => {
+    it("should return a 401 from the auth users route", async () => {
+      const expectedStatusCode = 401;
+      // do a get request to our api (server.js) and inspect the response
+      const response = await request(server).get("/api/auth/users");
+
+      expect(response.status).toEqual(expectedStatusCode);
+    });
+  });
+  describe("users model", () => {
+    it("should insert the provided users into the database", async () => {
+      await db("users").truncate();
+      let tester = await userModel.add({
+        username: "tim",
+        password: "password"
+      });
+      const Tester = await db("users");
+      expect(Tester).toHaveLength(1);
+      //expect(Tester.username).toBe("tim");
     });
   });
 });

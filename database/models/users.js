@@ -21,9 +21,9 @@ function findById(id) {
   return db("users").where({ id: Number(id) });
 }
 
-function add(post) {
+function add(user) {
   return db("users")
-    .insert(post)
+    .insert(user)
     .then(ids => ({ id: ids[0] }));
 }
 
