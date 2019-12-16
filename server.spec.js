@@ -55,6 +55,21 @@ describe("server.js", () => {
       expect(response.status).toEqual(expectedStatusCode);
     });
   });
+  describe("register endpoint", () => {
+    it("register endpoint", async () => {
+      const expectedStatusCode = 201;
+      await db("users").truncate();
+      const response = await request(server)
+        .post("/api/auth/register")
+        .send({
+          username: "jimmy",
+          password: "password"
+        });
+      expect(response.status).toEqual(expectedStatusCode);
+
+      //expect(Tester.username).toBe("tim");
+    });
+  });
   describe("users model", () => {
     it("should insert the provided users into the database", async () => {
       await db("users").truncate();
