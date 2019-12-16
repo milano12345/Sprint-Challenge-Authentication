@@ -2,8 +2,10 @@
   complete the middleware code to check if the user is logged in
   before granting access to the next middleware/route handler
 */
+const jwt = require("jsonwebtoken");
+const secret = "easy password";
 
-function authMiddleWare(req, res, next) {
+function authenticate(req, res, next) {
   const token = req.headers.authorization;
   jwt.verify(token, secret, (error, decodedToken) => {
     if (error) {
@@ -15,4 +17,4 @@ function authMiddleWare(req, res, next) {
   });
 }
 
-module.exports = authMiddleWare;
+module.exports = authenticate;
